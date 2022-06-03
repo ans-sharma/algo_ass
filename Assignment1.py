@@ -3,7 +3,8 @@
 # Also plot the graph of the time complexity for different values of array size ‘n’. 
 # Compare this with the plot of  and give your comments in 2-3 lines.
 
-from cProfile import label
+from cmath import log
+from math import log2
 import time
 import random
 import matplotlib.pyplot as plt
