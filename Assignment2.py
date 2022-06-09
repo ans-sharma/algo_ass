@@ -1,65 +1,99 @@
-# # Assignment 2
-# # Write a program to perform Integer Multiplication using Divide and Conquer technique. 
-# # Plot the graph showing time taken for running the program for different sizes of input integer numbers. 
-# # Compare the curve with the curve of n^2 and n^1.6 and give your comments.
+import math
+import time
+import random
+import matplotlib.pyplot as plt
+from numpy import append
+MAXSIZE = 10000
+STEPS = 500
 
+def multiply(x, y):
 
-# Algorithm DC_CLEVER_MULTIPLICATION(A, B)
-# // Description : Perform multiplication of large numbers using divide and conquer strategy.
-# // Input : Number A and B, where A = an-1…a1a0, and B = bn-1...b1b0
-# // Output : Multiplication of A and B as C, i.e. C = A * B
+    # Convert x into it's binary form
+    xb = bin(x)
+    xb = xb[2:] # Omit the prefix 0b
 
-# if |a| == 1 or |b| == 1 then
-#   return A * B
-# else
-#   n ← max(|A|, |B|)	
-#   c2 ← DC_ CLEVER_MULTIPLICATION(a1, b1)
-#   c0 ← DC_ CLEVER_MULTIPLICATION(a0, b0)
-#   x ← DC_ CLEVER_MULTIPLICATION(a1 + a0, b1 + b0)
-#   return c2*10n + (x – c2 – c0) * 10n/2 + c0
-# end
+    # Convert y into it's binary form
+    yb = bin(y)
+    yb = yb[2:] # Eliminate the prefix 0b
 
+    len_y = len(yb)
+    len_x = len(xb)
 
-    #  Algorithm Karatsuba(a,b):
-    # if a or b has one digit, then:
-    #     return a * b.
-    # else:
-    #     Let n be the number of digits in max{a, b}.
-    #     Let aL and aR be left and right halves of a.
-    #     Let bL and bR be left and right halves of b.
-    #     Let x1 hold Karatsuba(aL, bL).
-    #     Let x2 hold Karatsuba(aL + aR, bL + bR).
-    #     Let x3 hold Karatsuba(aR, bR).
-    #     return x1*10n + (x2 - x1 - x3)*10n/2 + x3.
-    # end of if 
-
-def integerMultiplication(A, B):
-    if len(str(A))==1 or len(str(B))==1:
-        return A*B
+    if x > y :
+        n = len(xb)
+        while(len_y < len_x):
+            yb = '0' + yb
+            len_y = len_y + 1
+    
     else:
-        if len(str(A)) > len(str(B)):
-            pass
-        # if len(str(A))%2 != 0:
-        #     pass
-        # if len(str(B))%2 != 0:
-        #     pass
-        n = max(len(str(A)),len(str(B)))
-        nLen = len(str(A))//2
-        dConst = 10**nLen
-        # dConst = 10**nLen
-        a0 = A // dConst # a left part
-        a1 = A % dConst # a right part
-        nLen = len(str(B))//2
-        dConst = 10**nLen
-        # dConst = 10**nLen
-        b0 = B // dConst  # b left part
-        b1 = B % dConst # b right part
-        x1 = integerMultiplication(a0, b0)
-        x2 = integerMultiplication(a0 + a1, b0 + b1)
-        x3 = integerMultiplication(a1, b1)
-        # return x1*(10**n) + (x2-x1-x3)*(10**(n/2)) + x3
-        return x1*(2**n) + (x2-x1-x3)*(2**(n/2)) + x3
+        n = len(yb)
+        while(len_x < len_y):
+            xb = '0' + xb
+            len_x = len_x + 1
+    
+    # Base Condition 
+    if n == 1:
+        return x * y
+   
+    len_xL = len_x//2
+    len_yL = len_y//2
 
-print(integerMultiplication(10, 10))
-print(int(0b10))
-print(int(0b10))
+    xL = xb[:len_xL] # Extracting the left most significant digits
+    xR = xb[len_xL:] # Extracting the right most significant digits
+    yL = yb[:len_yL] # Extracting the left most significant digits
+    yR = yb[len_yL:] # Extracting the right most significant digits
+
+    # Multiply xL and yL
+    mul = int(xL,2) * int(yL,2)
+    P1 = bin(mul)
+    P1 = P1[2:]
+
+    # Multiply xR and yR
+    mul = int(xR,2) * int(yR,2)
+    P2 = bin(mul)
+    P2 = P2[2:]
+
+    # Multiply xL+xR and yL+yR
+    add1 = int(xL,2) + int(xR,2)
+    add2 = int(yL,2) + int(yR,2)
+    mul = add1 * add2
+    P3 = bin(mul)
+    P3 = P3[2:]
+
+    mul = int(P1,2) * 2**(2*math.ceil(n/2)) + (int(P3,2) - int(P1,2) - int(P2,2)) * 2**(math.ceil(n/2)) + int(P2,2)
+    return mul
+
+
+n = []
+et = []
+n2_x = []
+n2_y = []
+n16_x = []
+n16_y = []
+for i in range(0,MAXSIZE+1, STEPS):
+    x = random.randint(i, 10**i)
+    y = random.randint(i, 10**i)
+    start = time.time_ns()
+    z = multiply(x, y)
+    end = time.time_ns()
+    n.append(len(str(x)))
+    executionTime = end - start
+    et.append(executionTime)
+    # print("x, y, executionTime", x, y, executionTime)
+    n2_x.append(len(str(x)))
+    n2_y.append((i*i)/10)
+    n16_x.append(len(str(x)))
+    n16_y.append(i**(1.6))
+print(n)
+print(et)
+print(n2_y)
+print(n16_y)
+
+plt.plot(n, et, label="mul")
+plt.plot(n2_x, n2_y, label="n^2")
+plt.plot(n16_x, n16_y, label="n^1.6")
+plt.xlabel('x - axis')
+plt.ylabel('y - axis')
+plt.title('integer multiplication')
+plt.legend()
+plt.show();
