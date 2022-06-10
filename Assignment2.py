@@ -1,3 +1,8 @@
+# # Assignment 2
+# # Write a program to perform Integer Multiplication using Divide and Conquer technique. 
+# # Plot the graph showing time taken for running the program for different sizes of input integer numbers. 
+# # Compare the curve with the curve of n^2 and n^1.6 and give your comments.
+
 import math
 import time
 import random
@@ -81,7 +86,8 @@ for i in range(0,MAXSIZE+1, STEPS):
     et.append(executionTime)
     # print("x, y, executionTime", x, y, executionTime)
     n2_x.append(len(str(x)))
-    n2_y.append((i*i)/10)
+    # n2_y.append((i*i)/10)
+    n2_y.append(i*i)
     n16_x.append(len(str(x)))
     n16_y.append(i**(1.6))
 print(n)
@@ -89,11 +95,11 @@ print(et)
 print(n2_y)
 print(n16_y)
 
-plt.plot(n, et, label="mul")
-plt.plot(n2_x, n2_y, label="n^2")
+plt.plot(n, et, label="Integer Multiplication")
+# plt.plot(n2_x, n2_y, label="n^2")
 plt.plot(n16_x, n16_y, label="n^1.6")
 plt.xlabel('x - axis')
 plt.ylabel('y - axis')
-plt.title('integer multiplication')
+plt.title('Integer Multiplication')
 plt.legend()
 plt.show();
