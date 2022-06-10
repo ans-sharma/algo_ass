@@ -79,9 +79,11 @@ for i in range(100,MAXSIZE+1, STEPS):
     n = len(arr) 
     # z = i*0.0001
     x_n.append(i)
-    y_n.append((i*i)*30)
-    logx_n.append(i)
-    logy_n.append((i*log2(i))*30)
+    y_n.append((i*i)*80)
+    # y_n.append((i*i))
+    # logx_n.append(i)
+    # logy_n.append((i*log2(i))*1000)
+    # logy_n.append((i*log2(i)))
     start = time.time_ns()
     mergeSort(arr, 0, n-1)
     executionTime = time.time_ns()-start
@@ -91,11 +93,11 @@ for i in range(100,MAXSIZE+1, STEPS):
 
 # print("n^2",y_n)
 # print("mergesort",et)
-print("nlogx", logx_n)
-print("nlogy", logy_n)
+# print("nlogx", logx_n)
+# print("nlogy", logy_n)
 
 plt.plot(x_n,y_n, label="n^2")
-plt.plot(logx_n,logy_n, label="nlogn")
+# plt.plot(logx_n,logy_n, label="nlogn")
 plt.plot(no, et, label="merge-sort")
 plt.xlabel('x - axis')
 plt.ylabel('y - axis')
