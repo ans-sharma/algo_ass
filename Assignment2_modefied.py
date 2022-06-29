@@ -20,7 +20,7 @@ import math
 import time
 import random
 import matplotlib.pyplot as plt
-MAXSIZE = 1000
+MAXSIZE = 4000
 STEPS = 100
 
 def integerMultiplication(A, B):
@@ -57,6 +57,8 @@ n2_x = []
 n2_y = []
 n16_x = []
 n16_y = []
+n159_x = []
+n159_y = []
 for i in range(0,MAXSIZE+1, STEPS):
     x = random.randint(i, 10**i)
     y = random.randint(i, 10**i)
@@ -65,13 +67,18 @@ for i in range(0,MAXSIZE+1, STEPS):
     end = time.time_ns()
     n.append(len(str(x)))
     executionTime = end - start
-    et.append(executionTime/2000)
+    et.append(executionTime/1700)
+    # et.append(executionTime)
     # print("x, y, executionTime", x, y, executionTime)
     n2_x.append(len(str(x)))
     # n2_y.append((i*i)/10)
     n2_y.append(i*i)
     n16_x.append(len(str(x)))
-    n16_y.append(i**(1.59))
+    n159_x.append(len(str(x)))
+    # n16_y.append(i**(1.57)) #best 
+    n16_y.append(i**(1.6)) 
+    n159_y.append(i**(1.59)) 
+
 print(n)
 print(et)
 print(n2_y)
@@ -80,8 +87,9 @@ print(n16_y)
 plt.plot(n, et, label="Integer Multiplication")
 # plt.plot(n2_x, n2_y, label="n^2")
 plt.plot(n16_x, n16_y, label="n^1.6")
-plt.xlabel('x - axis')
-plt.ylabel('y - axis')
+plt.plot(n159_x, n159_y, label="n^1.59")
+plt.xlabel('no. of digits')
+plt.ylabel('execution time (ns)')
 plt.title('Integer Multiplication')
 plt.legend()
 plt.show();
