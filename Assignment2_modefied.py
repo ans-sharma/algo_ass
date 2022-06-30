@@ -20,41 +20,29 @@ import math
 import time
 import random
 import matplotlib.pyplot as plt
-MAXSIZE = 4000
+MAXSIZE = 2000
 STEPS = 100
 
 def integerMultiplication(A, B):
     if len(str(A))==1 or len(str(B))==1:
         return A*B
     else:
-        # if len(str(A)) > len(str(B)):
-            # pass
-        # if len(str(A))%2 != 0:
-        #     pass
-        # if len(str(B))%2 != 0:
-        #     pass
         n = max(len(str(A)),len(str(B)))
         nLen = len(str(A))//2
         dConst = 10**nLen
-        # dConst = 10**nLen
         aL = A // dConst # a left part
         aR = A % dConst # a right part
         nLen = len(str(B))//2
         dConst = 10**nLen
-        # dConst = 10**nLen
         bL = B // dConst  # b left part
         bR = B % dConst # b right part
         x1 = integerMultiplication(aL, bL)
         x2 = integerMultiplication(aL + aR, bL + bR)
         x3 = integerMultiplication(aR, bR)
         return x1*(10**n) + (x2-x1-x3)*(10**math.ceil(n/2)) + x3
-        # return x1*(2**n) + (x2-x1-x3)*(2**(n/2)) + x3
 
-# print(integerMultiplication(1980,2323))
 n = []
 et = []
-n2_x = []
-n2_y = []
 n16_x = []
 n16_y = []
 n159_x = []
@@ -68,24 +56,17 @@ for i in range(0,MAXSIZE+1, STEPS):
     n.append(len(str(x)))
     executionTime = end - start
     et.append(executionTime/1700)
-    # et.append(executionTime)
-    # print("x, y, executionTime", x, y, executionTime)
-    n2_x.append(len(str(x)))
-    # n2_y.append((i*i)/10)
-    n2_y.append(i*i)
     n16_x.append(len(str(x)))
     n159_x.append(len(str(x)))
-    # n16_y.append(i**(1.57)) #best 
     n16_y.append(i**(1.6)) 
     n159_y.append(i**(1.59)) 
 
 print(n)
 print(et)
-print(n2_y)
 print(n16_y)
+print(n159_y)
 
 plt.plot(n, et, label="Integer Multiplication")
-# plt.plot(n2_x, n2_y, label="n^2")
 plt.plot(n16_x, n16_y, label="n^1.6")
 plt.plot(n159_x, n159_y, label="n^1.59")
 plt.xlabel('no. of digits')
