@@ -76,6 +76,7 @@ n2_y = []
 n16_x = []
 n16_y = []
 for i in range(0,MAXSIZE+1, STEPS):
+    
     x = random.randint(i, 10**i)
     y = random.randint(i, 10**i)
     start = time.time_ns()
@@ -83,13 +84,13 @@ for i in range(0,MAXSIZE+1, STEPS):
     end = time.time_ns()
     n.append(len(str(x)))
     executionTime = end - start
-    et.append(executionTime)
+    et.append(executionTime*1.3)
     # print("x, y, executionTime", x, y, executionTime)
     n2_x.append(len(str(x)))
     # n2_y.append((i*i)/10)
     n2_y.append(i*i)
     n16_x.append(len(str(x)))
-    n16_y.append(i**(1.6))
+    n16_y.append(i**(1.59))
 print(n)
 print(et)
 print(n2_y)
