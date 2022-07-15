@@ -2,9 +2,9 @@ import timeit
 import random
 import matplotlib.pyplot as plt
 
-MAXSIZE = 15000
+MAXSIZE = 10000
 STEP = 1000
-START = 2000
+START = 1
 
 # heapify
 def heapify(arr, n, i):
@@ -32,6 +32,10 @@ def heapSort(arr):
    for i in range(n-1, 0, -1):
       arr[i], arr[0] = arr[0], arr[i] # swap
       heapify(arr, i, 0)
+
+def buildHeap(Arr):
+    for i in range(int((len(Arr)/2)-1), -1, -1):
+        heapify(Arr,i,len(Arr))
 
 def merge(arr, l, m, r):
     n1 = m - l + 1
@@ -95,6 +99,8 @@ for i in range(START, MAXSIZE, STEP):
     mergeSort(arr, 0 , i-1)
     end_et_mergeSort = timeit.default_timer()
     et_mergeSort.append(end_et_mergeSort-start_et_mergeSort) #storing the execution time of merge sort
+    #building the heap
+    # buildHeap(arr1)
     start_et_heapSort = timeit.default_timer()
     heapSort(arr1)
     end_et_heapSort = timeit.default_timer()
