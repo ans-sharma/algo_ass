@@ -1,7 +1,9 @@
 # Write a program to implement the Counting sort algorithm. 
 # Verify that it runs in O(n) time for inputs in the range of n.
 
-import numpy as np;
+import numpy as np
+import time as t
+import matplotlib.pyplot as plt
 def countingSort(arr, maxRange):
     countArr = np.zeros(maxRange+1,dtype=int)
     # print(countArr)
@@ -22,6 +24,30 @@ def countingSort(arr, maxRange):
         countArr[element] += 1
     # print(tempArr) 
     # print(countArr)
-    return(tempArr)
+    arr = tempArr
 
 print(countingSort(np.random.randint(0,3,200), 4))
+
+START = 2
+END = 100
+STEPS = 10
+K = 10
+n = []
+et = []
+for i in range(START, END, STEPS):
+    arr = np.random.randint(0, K, i, dtype=int)
+    n.append(i)
+    start = t.perf_counter()
+    countingSort(arr, K)
+    end = t.perf_counter()
+    executionTime = end - start
+    et.append(executionTime*100000)
+    
+plt.plot(n, et, label="counting sort")
+plt.plot(n, n, label="n")
+plt.xlabel('array size')
+plt.ylabel('execution time')
+plt.title('Counting Sort')
+plt.legend()
+plt.show()
+    
