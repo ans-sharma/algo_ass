@@ -5,7 +5,7 @@ from matplotlib import pyplot as plt
 def countingSort(array):
     size = len(array)
     output = [0] * size
-    count = [0] * 100000
+    count = [0] * 1001
     for i in range(0, size):
         count[array[i]] += 1
     for i in range(1, 10):
@@ -23,11 +23,11 @@ n = []
 for i in range(2, 1000, 100):
     arr = []
     for j in range(0, i):
-        temp = random.randint(0, 99999)
+        temp = random.randint(0, 1000)
         arr.append(temp)
     start = time.perf_counter()
     countingSort(arr)
-    et.append((time.perf_counter()-start)*100000)
+    et.append((time.perf_counter()-start)*1000000)
     n.append(i)
 plt.plot(n, et, label="counting sort")
 plt.plot(n, n, label="n")
