@@ -32,29 +32,26 @@ def radixSort(array):
         countingSort(array, place)
         place *= 10
 
-
-# data = [121, 432, 564, 23, 1, 45, 788]
-# radixSort(data)
-# print(data)
-
 START = 2
-END = 100
-STEPS = 10
+END = 100000
+STEPS = 10000
 n = []
+n_n = []
 et = []
 for i in range(START, END, STEPS):
-    arr = np.random.randint(0, i**2, i, dtype=int)
+    arr = np.random.randint(0, i, i, dtype=int)
     n.append(i)
+    n_n.append(i*0.00001)
     start = t.perf_counter()
     radixSort(arr)
     end = t.perf_counter()
     executionTime = end - start
-    et.append(executionTime*100000)
+    et.append(executionTime)
     
 plt.plot(n, et, label="radix sort")
-plt.plot(n, n, label="n")
+plt.plot(n, n_n, label="n")
 plt.xlabel('array size')
-plt.ylabel('execution time')
+plt.ylabel('execution time(s)')
 plt.title('Radix Sort')
 plt.legend()
 plt.show()
