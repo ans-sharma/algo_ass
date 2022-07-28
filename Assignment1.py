@@ -1,8 +1,12 @@
 from random import randint
 from math import log2
 import timeit
+import time
 import matplotlib.pyplot as plt
 
+#Adding some globle variable
+COUNT = 0
+COUNT_ARR = []
 
 def merge(arr, l, m, r):
     n1 = m - l + 1
@@ -41,6 +45,8 @@ def merge(arr, l, m, r):
 
 
 def mergeSort(arr, l, r):
+    global COUNT
+    COUNT = COUNT + 1
     if l < r:
         m = l+(r-l)//2
         mergeSort(arr, l, m)
@@ -52,21 +58,30 @@ arr = []
 x = []
 y = []
 n = []
-for i in range(1, 3000, 100):
+for i in range(1000, 15000+1, 1000 ):
     for j in range(i):
         temp = randint(0, i)
-        arr.append(temp)
+        arr.append(temp) # making a array of random int values
     x.append(i)
-    start = timeit.default_timer()
+    start = time.time()
     mergeSort(arr, 0, i-1)
-    end = timeit.default_timer()
-    y.append(end - start)
-    n.append(i*log2(i)*0.00000029)
+    end = time.time()
+    y.append((end - start)*1000000) # storing the execution time to sort the array # converting it to microsec
+    # n.append(i*log2(i)*0.00000027) # Calculating nlogn
+    n.append(i*log2(i)) # Calculating nlogn
+    print("n = " + str(i) + ", et = " + str((end - start)*1000000) + ", nlogn = " + str(i*log2(i)) + ", count = " + str(COUNT))
+    COUNT_ARR.append(COUNT)
+    COUNT = 0
+
+#printing the values
+print(COUNT)
+print(y)
+print(n)
 
 plt.plot(x, y, label='merge sort')
 plt.plot(x, n, label='nlogn')
 plt.legend()
 plt.xlabel('array size ')
-plt.ylabel('execution time (s)')
+plt.ylabel('execution time (microsec)')
 plt.title('Merge Sort')
 plt.show()
