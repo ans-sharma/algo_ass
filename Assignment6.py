@@ -27,6 +27,7 @@ n = []
 n_n =[]
 et = []
 for i in range(START, END, STEPS):
+    # arr = np.random.randint(0, K, i, dtype=int)
     arr = np.random.randint(0, K, i, dtype=int)
     n.append(i)
     n_n.append(i*0.00001)
