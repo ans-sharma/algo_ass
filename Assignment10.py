@@ -1,43 +1,29 @@
-# 0/1 Knapsack
-# Global Variables
-values = []
-weights = []
-capacity = 0
+def knapsack(capacity, weight, price):
+    for i in range(len(weight)):
+        for j in range(capacity + 1):
+            if weight[i] <= j:
+                knapsackMatrix[i][j] = max(price[i] + knapsackMatrix[i-1][j-weight[i]], knapsackMatrix[i-1][j])
+            else:
+                knapsackMatrix[i][j] = knapsackMatrix[i-1][j]
+    return knapsackMatrix[-1][-1]
 
-def _01knapsack(capacity, weights, values, arrLen):
-    # Base Case
-    if arrLen == 0 or capacity == 0:
-        return 0
-    
-    if (weights[arrLen-1] > capacity):
-        return _01knapsack(capacity, weights, values, arrLen-1)
- 
+capacity = int(input("Capacity: "))
+print("Input weights:")
+weight = list(map(int, input().split()))
+knapsackMatrix = [[0 for i in range(capacity + 1)] for i in range(len(weight))]
+print("Input prices:")
+price = list(map(int, input().split()))
+print(f"Maximum possible value: {knapsack(capacity, weight, price)}")
+ch = []
+ch1 = []
+i = len(weight) - 1
+j = capacity
+while i >= 0 and j > 0:
+    if knapsackMatrix[i][j] == knapsackMatrix[i-1][j] and i-1 >= 0:
+        i -= 1
     else:
-        return max(
-            values[arrLen-1] + _01knapsack(capacity-weights[arrLen-1], weights, values, arrLen-1), _01knapsack(capacity, weights, values, arrLen-1))
-
-def setCapacity(value):
-    global capacity
-    capacity = value
-
-while(True):
-    print("""
-Enter 1: Enter Weight Value pair,
-Enter 2: Set Knapsack Capacity,
-Enter 3: Run 0/1 Knapsack Algo,
-Enter 4: Exit
-""")
-    choice = int(input(" => "))
-    if choice == 1:
-        weights.append(int(input("Enter the Weight: ")))
-        values.append(int(input("Enter the Value: ")))
-    elif choice == 2:
-        setCapacity(int(input("Enter the capacity of knapsack: ")))
-    elif choice == 3:
-        if capacity == 0:
-            setCapacity(int(input("Enter the capacity of knapsack: ")))
-        print("Total Value:", _01knapsack(capacity, weights, values, len(values)))
-    elif choice == 4:
-        exit(0)
-    else:
-        print("Invalid Input!")
+        ch.insert(0, price[i])
+        ch1.insert(0,weight[i])
+        j -= weight[i]
+        i -= 1
+print(f'The choices are: price :{ch}, weight: {ch1}')
